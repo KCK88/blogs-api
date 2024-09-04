@@ -24,9 +24,9 @@ const validUser = async (req, res, next) => {
 };
 
 const isUserInDB = async (req, res, next) => {
-  const { displayName } = req.body;
-  const registeredUser = await userService.registeredUser(displayName);
-  if (registeredUser) {
+  const { email } = req.body;
+  const hasUser = await userService.registeredUser(email);
+  if (hasUser) {
     return res.status(409).json({ message: 'User already registered' });
   }
   next();

@@ -6,10 +6,10 @@ const createUser = (displayName, email, password, image) => User.create({
   password,
   image,
 });
-const registeredUser = async (displayName) => {
-  const userLogin = await User.findOne({ where: { displayName } });
+const registeredUser = async (email) => {
+  const userLogin = await User.findOne({ where: { email } });
   
-  return userLogin;
+  return !!userLogin;
 };
 
 module.exports = { createUser, registeredUser };
