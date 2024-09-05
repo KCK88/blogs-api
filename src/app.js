@@ -18,6 +18,7 @@ app.post('/login', loginController.login);
 
 app.post('/user', validUser, isUserInDB, userController.insertUser);
 app.get('/user', CheckJWT, userController.listUsers);
+app.get('/user/:id', CheckJWT, userController.findUser);
 
 // ...
 
