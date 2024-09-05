@@ -9,4 +9,9 @@ const createCategorie = async (req, res) => {
   return res.status(201).json(categorie);
 };
 
-module.exports = { createCategorie };
+const listCategories = async (_req, res) => {
+  const categoriesList = await categoriesService.listCategories();
+  return res.status(200).json(categoriesList);
+};
+
+module.exports = { createCategorie, listCategories };

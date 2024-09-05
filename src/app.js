@@ -21,6 +21,7 @@ app.get('/user', CheckJWT, userController.listUsers);
 app.get('/user/:id', CheckJWT, userController.findUser);
 
 app.post('/categories', CheckJWT, categoriesController.createCategorie);
+app.get('/categories', CheckJWT, categoriesController.listCategories);
 
 // ...
 
