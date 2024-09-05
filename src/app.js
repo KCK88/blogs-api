@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginController, userController } = require('./controllers');
+const { loginController, userController, categoriesController } = require('./controllers');
 const { validateUser, CheckJWT } = require('./middlewares');
 
 const { isUserInDB, validUser } = validateUser;
@@ -19,6 +19,8 @@ app.post('/login', loginController.login);
 app.post('/user', validUser, isUserInDB, userController.insertUser);
 app.get('/user', CheckJWT, userController.listUsers);
 app.get('/user/:id', CheckJWT, userController.findUser);
+
+app.post('/categories', CheckJWT, categoriesController.createCategorie);
 
 // ...
 
