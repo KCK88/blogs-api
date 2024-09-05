@@ -1,6 +1,6 @@
 const express = require('express');
 const { loginController, userController } = require('./controllers');
-const { validateUser } = require('./middlewares');
+const { validateUser, CheckJWT } = require('./middlewares');
 
 const { isUserInDB, validUser } = validateUser;
 // ...
@@ -17,6 +17,7 @@ app.use(express.json());
 app.post('/login', loginController.login);
 
 app.post('/user', validUser, isUserInDB, userController.insertUser);
+app.get('/user', CheckJWT, userController.listUsers);
 
 // ...
 

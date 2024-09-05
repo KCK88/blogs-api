@@ -8,8 +8,18 @@ const createUser = (displayName, email, password, image) => User.create({
 });
 const registeredUser = async (email) => {
   const userLogin = await User.findOne({ where: { email } });
-  
   return !!userLogin;
 };
 
-module.exports = { createUser, registeredUser };
+const listUsers = async () => {
+  const userList = await User.findAll();
+  const formattedUserList = userList.map((user) => ({
+    id: user.id, // Supondo que o campo id existe no objeto user
+    displayName: user.displayName,
+    email: user.email,
+    image: user.image,
+  }));
+  return formattedUserList;
+};
+
+module.exports = { createUser, registeredUser, listUsers };
