@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const { JWT_SECRET } = process.env;
 
-const CheckJWT = async (req, res, next) => {
+const checkJWT = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) return res.status(401).json({ message: 'Token not found' });
@@ -11,6 +11,8 @@ const CheckJWT = async (req, res, next) => {
 
   try {
     const data = jwt.verify(token, JWT_SECRET);
+    console.log(data);
+    
     res.locals.user = data;
     next();
   } catch (error) {
@@ -19,4 +21,4 @@ const CheckJWT = async (req, res, next) => {
   }
 };
 
-module.exports = { CheckJWT };
+module.exports = { checkJWT };

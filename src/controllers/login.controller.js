@@ -18,7 +18,7 @@ const login = async (req, res) => {
     }
     const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
 
-    const token = jwt.sign({ data: { userId: userLogin.email } }, secret, jwtConfig);
+    const token = jwt.sign({ data: { userId: userLogin.id } }, secret, jwtConfig);
 
     res.status(200).json({ token });
   } catch (err) {

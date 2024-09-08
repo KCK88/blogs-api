@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
         tableName: "categories"
       }
     );
-
-    Category.associate = (models) => {
-    }
     return Category
   };
   
