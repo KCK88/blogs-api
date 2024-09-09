@@ -29,6 +29,8 @@ app.post('/categories', checkJWT, categoriesController.createCategorie);
 app.get('/categories', checkJWT, categoriesController.listCategories);
 
 app.post('/post', checkJWT, blogPostController.createPost);
+app.get('/post', checkJWT, blogPostController.listPosts);
+app.get('/post/:id', checkJWT, blogPostController.listPosts);
 
 // ...
 
