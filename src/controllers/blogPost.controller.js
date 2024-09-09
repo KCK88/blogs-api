@@ -2,7 +2,6 @@ const { blogPostService } = require('../services');
 
 const createPost = async (req, res) => {
   const post = req.body;
-  console.log(res.locals.user.userId);
   
   const postCrerate = await blogPostService.createPost({
     ...post, userId: res.locals.user.data.userId });

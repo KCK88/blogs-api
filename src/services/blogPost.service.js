@@ -2,26 +2,23 @@ const { BlogPost } = require('../models');
 const { Category } = require('../models');
 const { User } = require('../models');
 
-const createPost = async (post) => {
-  console.log(post.userId);  
+const createPost = async (post) => { 
   const blogPost = {
     title: post.title,
     content: post.content,
-    id: post.userId,
+    userId: post.userId,
   };
-  const postCrerate = await BlogPost.create({ ...blogPost });
-
-  const categories = {
-    categoryIds: post.categoryIds,
-  };
-  const postCategories = await Category.create({ categories });
-  return postCrerate && postCategories;
+  const postCrerate = await BlogPost.create(blogPost);
+  const categories = await Category.findAll({ where: { id: post.categoryIds } });
+  console.log(postCrerate);
+  
+  return postCrerate;
 };
 
 const listPosts = async () => {
   const postsListed = await BlogPost.findAll(
     { include: [{ model: User, as: 'users' }, 
-      { model: Category, as: 'categories', through: { atributes: ['id', 'name'] } }] },
+      { model: Category, as: 'categories', through: { attributes: ['id', 'name'] } }] },
   );
 
   const filteredPosts = postsListed.map((post) => ({
@@ -41,8 +38,10 @@ const listPosts = async () => {
 const findPost = async (id) => {
   const post = await BlogPost.findByPk(
     id,
-    { include: [{ model: User, as: 'users' }, 
-      { model: Category, as: 'categories', through: { atributes: ['id', 'name'] } }] },
+    { include: { model: User, as: 'users' }, 
+      model: Category, 
+      as: 'categories', 
+      through: { atributes: ['id', 'name'] } },
   );
 
   const filteredPost = {
