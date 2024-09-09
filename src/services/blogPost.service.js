@@ -1,59 +1,39 @@
-const { BlogPost } = require('../models');
-const { Category } = require('../models');
-const { User } = require('../models');
+const { BlogPost, Category, User, PostCategory } = require('../models');
 
-const createPost = async (post) => { 
+const createPost = async (post) => {
   const blogPost = {
     title: post.title,
     content: post.content,
     userId: post.userId,
   };
-  const postCrerate = await BlogPost.create(blogPost);
-  const categories = await Category.findAll({ where: { id: post.categoryIds } });
-  console.log(postCrerate);
-  
-  return postCrerate;
+  const postCreated = await BlogPost.create(blogPost);
+
+  const createIds = post.categoryIds.map((categoryId) =>
+    PostCategory.create({ postId: postCreated.id, categoryId }));
+
+  await Promise.all(createIds);
+  return postCreated;
 };
 
 const listPosts = async () => {
-  const postsListed = await BlogPost.findAll(
-    { include: [{ model: User, as: 'users' }, 
-      { model: Category, as: 'categories', through: { attributes: ['id', 'name'] } }] },
-  );
-
-  const filteredPosts = postsListed.map((post) => ({
-    id: post.id,
-    title: post.title,
-    content: post.content,
-    userId: post.userId,
-    published: post.published,
-    updated: post.updated,
-    user: { ...post.users.dataValues, password: undefined },
-    categories: post.categories.map((category) => ({ id: category.id, name: category.name })),
-  }));
-  
-  return filteredPosts;
+  const postsListed = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+    attributes: { exclude: 'UserId' },
+  });
+  return postsListed;
 };
 
 const findPost = async (id) => {
-  const post = await BlogPost.findByPk(
-    id,
-    { include: { model: User, as: 'users' }, 
-      model: Category, 
-      as: 'categories', 
-      through: { atributes: ['id', 'name'] } },
-  );
-
-  const filteredPost = {
-    id: post.id,
-    title: post.title,
-    content: post.content,
-    userId: post.userId,
-    published: post.published,
-    updated: post.updated,
-    user: { ...post.users.dataValues, password: undefined },
-    categories: post.categories.map((category) => ({ id: category.id, name: category.name })),
-  };
-  return filteredPost;
+  const post = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+    attributes: { exclude: 'UserId' },
+  });  
+  return post;
 };
 module.exports = { createPost, listPosts, findPost };

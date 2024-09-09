@@ -5,7 +5,7 @@ const {
   categoriesController,
   blogPostController,
 } = require('./controllers');
-const { validateUser, checkJWT } = require('./middlewares');
+const { validateUser, checkJWT, checkPost } = require('./middlewares');
 
 const { isUserInDB, validUser } = validateUser;
 // ...
@@ -28,9 +28,15 @@ app.get('/user/:id', checkJWT, userController.findUser);
 app.post('/categories', checkJWT, categoriesController.createCategorie);
 app.get('/categories', checkJWT, categoriesController.listCategories);
 
-app.post('/post', checkJWT, blogPostController.createPost);
+app.post(
+  '/post',
+  checkJWT,
+  checkPost.categoriesValidation, 
+  checkPost.postValidation, 
+  blogPostController.createPost,
+);
 app.get('/post', checkJWT, blogPostController.listPosts);
-app.get('/post/:id', checkJWT, blogPostController.listPosts);
+app.get('/post/:id', checkJWT, blogPostController.findPost);
 
 // ...
 
