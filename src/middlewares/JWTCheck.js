@@ -13,6 +13,7 @@ const checkJWT = async (req, res, next) => {
     const data = jwt.verify(token, JWT_SECRET);
     
     res.locals.user = data;
+    
     next();
   } catch (error) {
     res.status(401).json({ message: 'Expired or invalid token' });

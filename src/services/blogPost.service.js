@@ -36,4 +36,14 @@ const findPost = async (id) => {
   });  
   return post;
 };
-module.exports = { createPost, listPosts, findPost };
+
+const updatePost = async (changes, id) => {
+  await BlogPost
+    .update(
+      { title: changes.title, content: changes.content },
+      { where: { id } },
+    );
+        
+  return findPost(id);
+};
+module.exports = { createPost, listPosts, findPost, updatePost };

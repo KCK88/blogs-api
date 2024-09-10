@@ -16,7 +16,6 @@ const listPosts = async (req, res) => {
 const findPost = async (req, res) => {
   const { id } = req.params;
   const post = await blogPostService.findPost(id);
-  console.log(post);
    
   if (!post) {
     return res.status(404).json({ message: 'Post does not exist' });
@@ -24,4 +23,10 @@ const findPost = async (req, res) => {
   return res.status(200).json(post);
 };
 
-module.exports = { createPost, listPosts, findPost };
+const updatePost = async (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  const toChange = await blogPostService.updatePost(changes, id);
+  return res.status(200).json(toChange);  
+};
+module.exports = { createPost, listPosts, findPost, updatePost };
