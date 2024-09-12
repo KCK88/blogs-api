@@ -5,7 +5,9 @@ const {
   categoriesController,
   blogPostController,
 } = require('./controllers');
-const { validateUser, checkJWT, checkPost, validatePostFields } = require('./middlewares');
+const { 
+  validateUser, checkJWT, checkPost, validatePostFields, deleteValidation,
+} = require('./middlewares');
 
 const { isUserInDB, validUser } = validateUser;
 // ...
@@ -37,6 +39,7 @@ app.post(
 );
 app.get('/post', checkJWT, blogPostController.listPosts);
 app.get('/post/:id', checkJWT, blogPostController.findPost);
+app.delete('/post/:id', checkJWT, deleteValidation, blogPostController.deletePost);
 app.put('/post/:id', checkJWT, validatePostFields, blogPostController.updatePost);
 
 // ...

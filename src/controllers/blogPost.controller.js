@@ -29,4 +29,12 @@ const updatePost = async (req, res) => {
   const toChange = await blogPostService.updatePost(changes, id);
   return res.status(200).json(toChange);  
 };
-module.exports = { createPost, listPosts, findPost, updatePost };
+
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  await blogPostService.deletePost(id);
+
+  return res.status(204).send();
+};
+
+module.exports = { createPost, listPosts, findPost, updatePost, deletePost };
