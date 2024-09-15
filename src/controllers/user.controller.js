@@ -23,4 +23,10 @@ const findUser = async (req, res) => {
   return res.status(200).json(user);
 };
 
-module.exports = { insertUser, listUsers, findUser };
+const deleteMe = async (_req, res) => {
+  const id = res.locals.user.data.userId;
+  await userService.deleteMe(id);
+  return res.status(204).send();
+};
+
+module.exports = { insertUser, listUsers, findUser, deleteMe };

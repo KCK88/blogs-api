@@ -34,9 +34,19 @@ const findUser = async (id) => {
   return formattedUser;
 };
 
+const deleteMe = async (id) => {
+  const deleted = await User.destroy({
+    where: {
+      id,
+    },
+  });
+  return deleted;
+};
+
 module.exports = {
   createUser,
   registeredUser,
   listUsers,
   findUser,
+  deleteMe,
 };

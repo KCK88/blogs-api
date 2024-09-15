@@ -26,6 +26,7 @@ app.post('/login', loginController.login);
 app.post('/user', validUser, isUserInDB, userController.insertUser);
 app.get('/user', checkJWT, userController.listUsers);
 app.get('/user/:id', checkJWT, userController.findUser);
+app.delete('/user/me', checkJWT, userController.deleteMe);
 
 app.post('/categories', checkJWT, categoriesController.createCategorie);
 app.get('/categories', checkJWT, categoriesController.listCategories);

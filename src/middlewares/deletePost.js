@@ -8,7 +8,6 @@ const deleteValidation = async (req, res, next) => {
     include: 
     { model: User, as: 'user', attributes: { exclude: 'password' } },
   });
-  console.log(idFromDB);
   
   if (!idFromDB) {
     return res.status(404).json({ message: 'Post does not exist' });
